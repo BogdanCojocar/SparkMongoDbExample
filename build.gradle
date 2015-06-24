@@ -1,0 +1,46 @@
+apply plugin: 'scala'
+apply plugin: 'eclipse'
+apply plugin: 'gradle-one-jar'
+
+buildscript {
+	repositories {
+	    mavenCentral()
+	}
+	dependencies {
+    	classpath 'com.github.rholder:gradle-one-jar:1.0.3'
+  	}
+}
+
+compileScala {
+    //enable compilation in a separate daemon process
+    options.fork = true
+
+    //enable incremental compilation
+    options.incremental = true
+}
+
+repositories {
+    mavenCentral()
+}
+version = '1.0'
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Spark Demo Classification',
+                   'Implementation-Version': version
+    }
+}
+
+dependencies {
+	
+	// downgrade to scala 2.10 in order to be compatible with spark-mongodb
+    compile 'org.scala-lang:scala-library:2.10.5'
+    compile 'commons-collections:commons-collections:3.2'
+    compile 'org.apache.spark:spark-core_2.10:1.4.0'
+    compile 'org.slf4j:slf4j-api:1.7.7'
+    compile 'joda-time:joda-time:2.7'
+    compile 'org.apache.spark:spark-sql_2.10:1.4.0'
+    compile 'org.apache.spark:spark-mllib_2.10:1.4.0' 
+    //compile 'com.stratio:spark-mongodb-core:0.8.4'
+    compile 'org.mongodb:casbah-core_2.10:2.8.1'
+}
